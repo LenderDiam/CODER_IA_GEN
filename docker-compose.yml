@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - coder-ia-gen-net
+
+  fastapi:
+    build:
+      context: ./back-fastapi
+      dockerfile: app/dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/postgres
+    ports:
+      - "8000:8000"
+    networks:
+      - coder-ia-gen-net
+
+  vite-project:
+    build:
+      context: ./coder-ia-gen
+      dockerfile: dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - coder-ia-gen-net
+
+networks:
+  coder-ia-gen-net:
+    driver: bridge
+
+
