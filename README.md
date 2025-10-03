@@ -34,7 +34,7 @@ The application allows you to increment, view, and reset a counter stored in the
 1. **Clone the project**
    ```bash
    git clone https://github.com/LenderDiam/CODER_IA_GEN.git
-   cd CODER-IA-GEN
+   cd CODER_IA_GEN
    ```
 
 2. **Launch the application with Docker Compose**
