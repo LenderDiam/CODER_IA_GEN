@@ -97,11 +97,11 @@ docker compose up -d
 ### View logs
 ```bash
 docker compose logs
-docker compose logs fastapi  # Backend logs
-docker compose logs vite-project  # Frontend logs
+docker compose logs coder-ia-gen-api  # Backend logs
+docker compose logs coder-ia-gen-frontend  # Frontend logs
 ```
 
 ### Access database
 ```bash
-docker exec -it coder-ia-gen-db-1 psql -U postgres
+docker exec -it coder-ia-gen-postgres psql -U postgres
 ```
