@@ -1,5 +1,6 @@
 services:
   db:
+    container_name: coder-ia-gen-postgres
     image: postgres:15
     restart: always
     environment:
@@ -12,6 +13,7 @@ services:
       - coder-ia-gen-net
 
   fastapi:
+    container_name: coder-ia-gen-api
     build:
       context: ./back-fastapi
       dockerfile: app/dockerfile
@@ -25,6 +27,7 @@ services:
       - coder-ia-gen-net
 
   vite-project:
+    container_name: coder-ia-gen-frontend
     build:
       context: ./coder-ia-gen
       dockerfile: dockerfile
