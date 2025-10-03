@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [count, setCount] = useState<number | null>(null);
@@ -21,10 +21,13 @@ function App() {
     setCount(data.count);
   };
 
+  useEffect(() => {
+    fetchCount();
+  }, []);
+
   return (
     <div>
       <h1>Compteur : {count !== null ? count : 'Chargement...'}</h1>
-  <button onClick={fetchCount}>Rafraîchir</button>
   <button onClick={incrementCount}>Incrémenter</button>
   <button onClick={resetCount}>Remettre à zéro</button>
     </div>

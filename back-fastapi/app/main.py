@@ -7,10 +7,9 @@ from app.models.count_table import Base, CountTable
 
 app = FastAPI()
 
-# CORS pour autoriser le front-end
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # à restreindre si besoin
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -20,12 +19,25 @@ DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgres@db:5432
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 
+def init_database():
+    Base.metadata.create_all(bind=engine)
+    
+    with SessionLocal() as session:
+        count_row = session.query(CountTable).first()
+        if count_row is None:
+            session.add(CountTable(count_number=0))
+            session.commit()
+
+init_database()
+
 @app.get("/count")
 def get_count():
     with SessionLocal() as session:
         count_row = session.query(CountTable).first()
         if count_row is None:
-            raise HTTPException(status_code=404, detail="Count not found")
+            session.add(CountTable(count_number=0))
+            session.commit()
+            return {"count": 0}
         return {"count": count_row.count_number}
 
 @app.post("/count/increment")
